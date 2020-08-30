@@ -45,8 +45,18 @@ int main() {
     std::cout << "Enter the number of lights: ";
     std::cin >> lightsCount;
 
-    benchesCoordinates = new float*[benchesCount];
-    lightsValues = new float*[lightsCount];
+    benchesCoordinates = new (std::nothrow) float*[benchesCount];
+    if(benchesCoordinates == NULL) {
+        std::cout << "No memory\n";
+        return -1;
+    }
+
+    lightsValues = new (std::nothrow) float*[lightsCount];
+    if(lightsValues == NULL) {
+        freeMemory();
+        std::cout << "No memory\n";
+        return -1;
+    }
     
     //Input for benches
     for(unsigned i = 0; i < benchesCount; ++i) {
@@ -59,6 +69,11 @@ int main() {
         std::cin >> y;
 
         benchesCoordinates[i] = new float[2];
+        if(benchesCoordinates[i] == NULL) {
+            freeMemory();
+            std::cout << "No memory\n";
+            return -1;
+        }
 
         benchesCoordinates[i][0] = x;
         benchesCoordinates[i][1] = y;
