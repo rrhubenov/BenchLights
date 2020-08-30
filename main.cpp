@@ -7,6 +7,8 @@ unsigned lightsCount;
 float** benchesCoordinates;
 float** lightsValues;
 
+float EPSILON = 0.0001;
+
 
 void freeMemory() {
     for(unsigned i = 0; i < benchesCount; ++i) {
@@ -32,7 +34,7 @@ bool isBenchInLights(float benchX, float benchY) {
         float yDistanceFromLight = (lightY-benchY)*(lightY-benchY);
         float distanceFromLight = sqrt(xDistanceFromLight + yDistanceFromLight);
 
-        if(distanceFromLight <= lightR) return true;
+        if((distanceFromLight - lightR) < EPSILON) return true;
     }
 
     return false;
